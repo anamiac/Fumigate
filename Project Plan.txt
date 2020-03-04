@@ -1,0 +1,35 @@
+List of features for a bug tracking system:
+
+Ability to create different tabs with different filters (my work, all tickets, My employee’s tickets, etc).
+MVC design pattern using C#, ASP.net, Web API
+Authentication and authorization.  Offzero.
+Database
+Front end using bootstrap template.
+Attachments
+Visual Studio and SSMS
+Code on GitHub.
+Have sprints, use the application to track progress.
+May want to move database to the cloud (Azure), if can be done for free
+
+Sprint 1, 
+Post this document on GitHub.
+Determine the next sprints.
+
+Sprint ? 
+Research Boostrap templates
+Create a front end.
+
+Sprint ? 
+Download Visual Studio.
+Create C# project and connect it to the front end.
+
+Sprint ? 
+Download SSMS
+Create a Database, connect it to the C# controller.
+
+Sprint ?
+Research OffZero.
+Create authentication
+
+Sprint ?
+Figure out Attachements
