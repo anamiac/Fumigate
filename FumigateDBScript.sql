@@ -63,7 +63,7 @@ CREATE TABLE [dbo].[Ticket](
 	[Author] [int] NOT NULL,
 	[CreationDate] [datetime] NULL,
 	[Title] [nvarchar](50) NULL,
-	[Priority] [int] NULL,
+	[Priority] [int] not NULL,
  CONSTRAINT [PK_Ticket] PRIMARY KEY CLUSTERED 
 (
 	[TicketId] ASC
@@ -86,7 +86,7 @@ CREATE TABLE [dbo].[TicketVersion](
 	[TicketId] [int] NOT NULL,
 	[ModifiedBy] [int] NOT NULL,
 	[ModificationDate] [datetime] NULL,
-	[Status] [int] NULL,
+	[Status] [int] not NULL,
 	[AssignedTo] [int] NOT NULL,
 	[Comment] [text] NULL,
  CONSTRAINT [PK_TicketVersion] PRIMARY KEY CLUSTERED 
