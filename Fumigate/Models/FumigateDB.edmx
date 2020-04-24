@@ -1,0 +1,743 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Fumigate_LiveModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Permissions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Priority">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="int" Nullable="false" />
+          <Property Name="TicketName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Author" Type="int" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TicketVersion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Version" Type="int" Nullable="false" />
+          <Property Name="TicketId" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" Nullable="false" />
+          <Property Name="ModificationDate" Type="datetime" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="AssignedTo" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="text" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Fumigate_Live.dbo.UserPermissionsLink' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="UserPermissionsLink">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="PermissionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Fumigate_Live.dbo.TicketGrid' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TicketGrid">
+          <Key>
+            <PropertyRef Name="TicketId" />
+            <PropertyRef Name="Author" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="ModifiedBy" />
+            <PropertyRef Name="AssignedTo" />
+          </Key>
+          <Property Name="TicketId" Type="int" Nullable="false" />
+          <Property Name="TicketName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Author" Type="int" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Priority" Type="int" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Version" Type="int" Nullable="false" />
+          <Property Name="Expr1" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" Nullable="false" />
+          <Property Name="ModificationDate" Type="datetime" />
+          <Property Name="Status" Type="int" />
+          <Property Name="AssignedTo" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="text" />
+        </EntityType>
+        <Association Name="FK__Ticket__Author__0D7A0286">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Author" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__Priority__0E6E26BF">
+          <End Role="Priority" Type="Self.Priority" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Priority">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Priority" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Assig__07C12930">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Assig__10566F31">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Assig__14270015">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Modif__08B54D69">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Modif__114A936A">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Modif__151B244E">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Statu__0A9D95DB">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Statu__1332DBDC">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Statu__17036CC0">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Ticke__123EB7A3">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Ticke__160F4887">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPermi__Permi__03F0984C">
+          <End Role="Permissions" Type="Self.Permissions" Multiplicity="1" />
+          <End Role="UserPermissionsLink" Type="Self.UserPermissionsLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permissions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPermissionsLink">
+              <PropertyRef Name="PermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPermi__UserI__02FC7413">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserPermissionsLink" Type="Self.UserPermissionsLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserPermissionsLink">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Fumigate_LiveModelStoreContainer">
+          <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Priority" EntityType="Self.Priority" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketVersion" EntityType="Self.TicketVersion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPermissionsLink" EntityType="Self.UserPermissionsLink" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [UserPermissionsLink].[Id] AS [Id], 
+    [UserPermissionsLink].[UserId] AS [UserId], 
+    [UserPermissionsLink].[PermissionId] AS [PermissionId]
+    FROM [dbo].[UserPermissionsLink] AS [UserPermissionsLink]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TicketGrid" EntityType="Self.TicketGrid" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TicketGrid].[TicketId] AS [TicketId], 
+    [TicketGrid].[TicketName] AS [TicketName], 
+    [TicketGrid].[Author] AS [Author], 
+    [TicketGrid].[CreationDate] AS [CreationDate], 
+    [TicketGrid].[Title] AS [Title], 
+    [TicketGrid].[Priority] AS [Priority], 
+    [TicketGrid].[ID] AS [ID], 
+    [TicketGrid].[Version] AS [Version], 
+    [TicketGrid].[Expr1] AS [Expr1], 
+    [TicketGrid].[ModifiedBy] AS [ModifiedBy], 
+    [TicketGrid].[ModificationDate] AS [ModificationDate], 
+    [TicketGrid].[Status] AS [Status], 
+    [TicketGrid].[AssignedTo] AS [AssignedTo], 
+    [TicketGrid].[Comment] AS [Comment]
+    FROM [dbo].[TicketGrid] AS [TicketGrid]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Ticket__Author__0D7A0286" Association="Self.FK__Ticket__Author__0D7A0286">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__Priority__0E6E26BF" Association="Self.FK__Ticket__Priority__0E6E26BF">
+            <End Role="Priority" EntitySet="Priority" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Assig__07C12930" Association="Self.FK__TicketVer__Assig__07C12930">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TicketVersion" EntitySet="TicketVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Assig__10566F31" Association="Self.FK__TicketVer__Assig__10566F31">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TicketVersion" EntitySet="TicketVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Assig__14270015" Association="Self.FK__TicketVer__Assig__14270015">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TicketVersion" EntitySet="TicketVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Modif__08B54D69" Association="Self.FK__TicketVer__Modif__08B54D69">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TicketVersion" EntitySet="TicketVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Modif__114A936A" Association="Self.FK__TicketVer__Modif__114A936A">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TicketVersion" EntitySet="TicketVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Modif__151B244E" Association="Self.FK__TicketVer__Modif__151B244E">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TicketVersion" EntitySet="TicketVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Statu__0A9D95DB" Association="Self.FK__TicketVer__Statu__0A9D95DB">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="TicketVersion" EntitySet="TicketVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Statu__1332DBDC" Association="Self.FK__TicketVer__Statu__1332DBDC">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="TicketVersion" EntitySet="TicketVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Statu__17036CC0" Association="Self.FK__TicketVer__Statu__17036CC0">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="TicketVersion" EntitySet="TicketVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Ticke__123EB7A3" Association="Self.FK__TicketVer__Ticke__123EB7A3">
+            <End Role="Ticket" EntitySet="Ticket" />
+            <End Role="TicketVersion" EntitySet="TicketVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Ticke__160F4887" Association="Self.FK__TicketVer__Ticke__160F4887">
+            <End Role="Ticket" EntitySet="Ticket" />
+            <End Role="TicketVersion" EntitySet="TicketVersion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPermi__Permi__03F0984C" Association="Self.FK__UserPermi__Permi__03F0984C">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="UserPermissionsLink" EntitySet="UserPermissionsLink" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPermi__UserI__02FC7413" Association="Self.FK__UserPermi__UserI__02FC7413">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPermissionsLink" EntitySet="UserPermissionsLink" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Fumigate_LiveModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserPermissionsLinks" Relationship="Self.FK__UserPermi__Permi__03F0984C" FromRole="Permissions" ToRole="UserPermissionsLink" />
+        </EntityType>
+        <EntityType Name="Priority">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Ticket__Priority__0E6E26BF" FromRole="Priority" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TicketVersions" Relationship="Self.FK__TicketVer__Statu__0A9D95DB" FromRole="Status" ToRole="TicketVersion" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="Int32" Nullable="false" />
+          <Property Name="TicketName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Author" Type="Int32" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Priority1" Relationship="Self.FK__Ticket__Priority__0E6E26BF" FromRole="Ticket" ToRole="Priority" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Ticket__Author__0D7A0286" FromRole="Ticket" ToRole="Users" />
+          <NavigationProperty Name="TicketVersions" Relationship="Self.FK__TicketVer__Ticke__123EB7A3" FromRole="Ticket" ToRole="TicketVersion" />
+        </EntityType>
+        <EntityType Name="TicketVersion">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Version" Type="Int32" Nullable="false" />
+          <Property Name="TicketId" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="Int32" Nullable="false" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="AssignedTo" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Status1" Relationship="Self.FK__TicketVer__Statu__0A9D95DB" FromRole="TicketVersion" ToRole="Status" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK__TicketVer__Ticke__123EB7A3" FromRole="TicketVersion" ToRole="Ticket" />
+          <NavigationProperty Name="User" Relationship="Self.FK__TicketVer__Assig__07C12930" FromRole="TicketVersion" ToRole="Users" />
+          <NavigationProperty Name="User3" Relationship="Self.FK__TicketVer__Modif__08B54D69" FromRole="TicketVersion" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK__Ticket__Author__0D7A0286" FromRole="Users" ToRole="Ticket" />
+          <NavigationProperty Name="TicketVersions" Relationship="Self.FK__TicketVer__Assig__07C12930" FromRole="Users" ToRole="TicketVersion" />
+          <NavigationProperty Name="TicketVersions3" Relationship="Self.FK__TicketVer__Modif__08B54D69" FromRole="Users" ToRole="TicketVersion" />
+          <NavigationProperty Name="UserPermissionsLinks" Relationship="Self.FK__UserPermi__UserI__02FC7413" FromRole="Users" ToRole="UserPermissionsLink" />
+        </EntityType>
+        <EntityType Name="UserPermissionsLink">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="PermissionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Permission" Relationship="Self.FK__UserPermi__Permi__03F0984C" FromRole="UserPermissionsLink" ToRole="Permissions" />
+          <NavigationProperty Name="User" Relationship="Self.FK__UserPermi__UserI__02FC7413" FromRole="UserPermissionsLink" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="TicketGrid">
+          <Key>
+            <PropertyRef Name="TicketId" />
+            <PropertyRef Name="Author" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="ModifiedBy" />
+            <PropertyRef Name="AssignedTo" />
+          </Key>
+          <Property Name="TicketId" Type="Int32" Nullable="false" />
+          <Property Name="TicketName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Author" Type="Int32" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Precision="3" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Priority" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Version" Type="Int32" Nullable="false" />
+          <Property Name="Expr1" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="Int32" Nullable="false" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="AssignedTo" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__UserPermi__Permi__03F0984C">
+          <End Role="Permissions" Type="Self.Permission" Multiplicity="1" />
+          <End Role="UserPermissionsLink" Type="Self.UserPermissionsLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permissions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserPermissionsLink">
+              <PropertyRef Name="PermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__Priority__0E6E26BF">
+          <End Role="Priority" Type="Self.Priority" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Priority">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Priority" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Statu__0A9D95DB">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ticket__Author__0D7A0286">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Author" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Ticke__123EB7A3">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Assig__07C12930">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TicketVer__Modif__08B54D69">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="TicketVersion" Type="Self.TicketVersion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TicketVersion">
+              <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserPermi__UserI__02FC7413">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="UserPermissionsLink" Type="Self.UserPermissionsLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserPermissionsLink">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Fumigate_LiveEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Permissions" EntityType="Self.Permission" />
+          <EntitySet Name="Priorities" EntityType="Self.Priority" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="Tickets" EntityType="Self.Ticket" />
+          <EntitySet Name="TicketVersions" EntityType="Self.TicketVersion" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserPermissionsLinks" EntityType="Self.UserPermissionsLink" />
+          <EntitySet Name="TicketGrids" EntityType="Self.TicketGrid" />
+          <AssociationSet Name="FK__UserPermi__Permi__03F0984C" Association="Self.FK__UserPermi__Permi__03F0984C">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="UserPermissionsLink" EntitySet="UserPermissionsLinks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__Priority__0E6E26BF" Association="Self.FK__Ticket__Priority__0E6E26BF">
+            <End Role="Priority" EntitySet="Priorities" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Statu__0A9D95DB" Association="Self.FK__TicketVer__Statu__0A9D95DB">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="TicketVersion" EntitySet="TicketVersions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ticket__Author__0D7A0286" Association="Self.FK__Ticket__Author__0D7A0286">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Ticke__123EB7A3" Association="Self.FK__TicketVer__Ticke__123EB7A3">
+            <End Role="Ticket" EntitySet="Tickets" />
+            <End Role="TicketVersion" EntitySet="TicketVersions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Assig__07C12930" Association="Self.FK__TicketVer__Assig__07C12930">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TicketVersion" EntitySet="TicketVersions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TicketVer__Modif__08B54D69" Association="Self.FK__TicketVer__Modif__08B54D69">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TicketVersion" EntitySet="TicketVersions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserPermi__UserI__02FC7413" Association="Self.FK__UserPermi__UserI__02FC7413">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserPermissionsLink" EntitySet="UserPermissionsLinks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Fumigate_LiveModelStoreContainer" CdmEntityContainer="Fumigate_LiveEntities1">
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="Fumigate_LiveModel.Permission">
+              <MappingFragment StoreEntitySet="Permissions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Priorities">
+            <EntityTypeMapping TypeName="Fumigate_LiveModel.Priority">
+              <MappingFragment StoreEntitySet="Priority">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="Fumigate_LiveModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="Fumigate_LiveModel.Ticket">
+              <MappingFragment StoreEntitySet="Ticket">
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="TicketName" ColumnName="TicketName" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketVersions">
+            <EntityTypeMapping TypeName="Fumigate_LiveModel.TicketVersion">
+              <MappingFragment StoreEntitySet="TicketVersion">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Fumigate_LiveModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPermissionsLinks">
+            <EntityTypeMapping TypeName="Fumigate_LiveModel.UserPermissionsLink">
+              <MappingFragment StoreEntitySet="UserPermissionsLink">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketGrids">
+            <EntityTypeMapping TypeName="Fumigate_LiveModel.TicketGrid">
+              <MappingFragment StoreEntitySet="TicketGrid">
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="TicketName" ColumnName="TicketName" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

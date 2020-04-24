@@ -1,0 +1,80 @@
+﻿@model Fumigate.Models.TicketVersion
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TicketVersion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Version)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Version)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModificationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModificationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status1.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status1.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ticket.TicketName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ticket.TicketName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User3.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User3.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

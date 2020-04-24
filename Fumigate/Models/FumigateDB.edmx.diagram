@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="75c8507506e347a19f0b66a42f57923f" Name="Diagram1">
+        <EntityTypeShape EntityType="Fumigate_LiveModel.Permission" Width="1.5" PointX="3.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Fumigate_LiveModel.Priority" Width="1.5" PointX="11.125" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="Fumigate_LiveModel.Status" Width="1.5" PointX="11" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Fumigate_LiveModel.Ticket" Width="1.5" PointX="8.875" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Fumigate_LiveModel.TicketVersion" Width="1.5" PointX="9" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Fumigate_LiveModel.User" Width="1.5" PointX="6" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Fumigate_LiveModel.UserPermissionsLink" Width="1.5" PointX="3.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Fumigate_LiveModel.TicketGrid" Width="1.5" PointX="1.125" PointY="0.625" IsExpanded="true" />
+        <AssociationConnector Association="Fumigate_LiveModel.FK__UserPermi__Permi__03F0984C" ManuallyRouted="false" />
+        <AssociationConnector Association="Fumigate_LiveModel.FK__Ticket__Priority__0E6E26BF" ManuallyRouted="false" />
+        <AssociationConnector Association="Fumigate_LiveModel.FK__TicketVer__Statu__0A9D95DB" ManuallyRouted="false" />
+        <AssociationConnector Association="Fumigate_LiveModel.FK__Ticket__Author__0D7A0286" ManuallyRouted="false" />
+        <AssociationConnector Association="Fumigate_LiveModel.FK__TicketVer__Ticke__123EB7A3" ManuallyRouted="false" />
+        <AssociationConnector Association="Fumigate_LiveModel.FK__TicketVer__Assig__07C12930" ManuallyRouted="false" />
+        <AssociationConnector Association="Fumigate_LiveModel.FK__TicketVer__Modif__08B54D69" ManuallyRouted="false" />
+        <AssociationConnector Association="Fumigate_LiveModel.FK__UserPermi__UserI__02FC7413" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,74 @@
+﻿@model Fumigate.Models.TicketVersion
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TicketVersion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Version)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Version)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModificationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModificationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status1.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status1.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ticket.TicketName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ticket.TicketName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User3.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User3.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
